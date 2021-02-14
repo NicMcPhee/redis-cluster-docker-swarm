@@ -7,7 +7,7 @@ version: '3.1'
 services:
 
   web:
-    image: ajeetraina/redis-flask
+    image: nicmcphee/redis-flask-demo
     deploy:
       replicas: 5
       restart_policy:
