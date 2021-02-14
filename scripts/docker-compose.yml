@@ -44,4 +44,4 @@ services:
 networks:
   redis:
     driver: overlay
-    attachable: true
+  webnet:
