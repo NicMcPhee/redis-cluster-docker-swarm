@@ -38,4 +38,5 @@ services:
 
 networks:
   redis:
-    external: true
+    driver: overlay
+    attachable: true
