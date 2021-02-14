@@ -1,6 +1,5 @@
 version: '3.1'
 
-
 services:
 
   redis-sentinel:
@@ -21,6 +20,19 @@ services:
       - REDIS_SENTINEL_PORT=26379
     deploy:
       replicas: 3
+    networks:
+      - redis
+
+  # Taken from https://collabnix.com/getting-started-with-redis-inside-docker-container-in-2-minutes/
+  visualizer:
+    image: dockersamples/visualizer:stable
+    ports:
+      - "8080:8080"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    deploy:
+      placement:
+        constraints: [node.role == manager]
     networks:
       - redis
 
