@@ -1,11 +1,30 @@
 version: '3.1'
 
+# The web and visualizer services were taken from
+# https://collabnix.com/getting-started-with-redis-inside-docker-container-in-2-minutes/
+# The rest are from the fork from thomasjpfan, with minor modifications.
+
 services:
+
+  web:
+    image: ajeetraina/redis-flask
+    deploy:
+      replicas: 5
+      restart_policy:
+        condition: on-failure
+      resources:
+        limits: "0.1"
+        memory: 50M
+    ports:
+      - "8000:8000"
+    networks:
+      - webnet
 
   redis-zero:
     image: redis:4.0.11-alpine
     networks:
       - redis
+      - webnet
 
   redis-sentinel:
     image: thomasjpfan/redis-sentinel:${TAG:-latest}
@@ -27,8 +46,8 @@ services:
       replicas: 3
     networks:
       - redis
+      - webnet
 
-  # Taken from https://collabnix.com/getting-started-with-redis-inside-docker-container-in-2-minutes/
   visualizer:
     image: dockersamples/visualizer:stable
     ports:
@@ -45,3 +64,4 @@ networks:
   redis:
     driver: overlay
   webnet:
+    driver: overlay
