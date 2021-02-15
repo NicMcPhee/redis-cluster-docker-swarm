@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+  web:
+    image: nicmcphee/redis-flask-demo
+    build: .
+    ports:
+      - "8000:8000"
+  redis:
+    image: redis:4.0.11-alpine
