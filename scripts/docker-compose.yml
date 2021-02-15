@@ -19,13 +19,12 @@ services:
     ports:
       - "8000:8000"
     networks:
-      - webnet
+      - redis
 
   redis-zero:
     image: redis:4.0.11-alpine
     networks:
       - redis
-      - webnet
 
   redis-sentinel:
     image: thomasjpfan/redis-sentinel:${TAG:-latest}
@@ -47,7 +46,6 @@ services:
       replicas: 3
     networks:
       - redis
-      - webnet
 
   visualizer:
     image: dockersamples/visualizer:stable
@@ -63,6 +61,4 @@ services:
 
 networks:
   redis:
-    driver: overlay
-  webnet:
     driver: overlay
